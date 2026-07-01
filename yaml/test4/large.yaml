@@ -1,0 +1,8 @@
+# data.yaml
+path: "/home/higo522/moose_deer/5_Fold_CV/Fold_4_Mar09/split_by_coco_size_val/large"
+train: 
+val: images
+
+# Classes
+nc: 2  # number of classes
+names: ['Moose', 'Deer']  # replace with your class names

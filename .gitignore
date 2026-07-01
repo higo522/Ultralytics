@@ -12,4 +12,4 @@ runs/
 SAM/
 wandb/
 weights/
-yaml/
+YOLOv11x_CV/
