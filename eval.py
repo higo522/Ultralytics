@@ -1,34 +1,44 @@
 from ultralytics import YOLO
 import numpy as np
-import os, sys
+import os, sys, csv, glob
 
-model = YOLO("runs/test5_val2/weights/best.pt")
-yaml = f"yaml/{'fold5.yaml'}"
-
-# Suppress output during val calls
 devnull = open(os.devnull, 'w')
 
-sys.stdout, sys.stderr = devnull, devnull
-metrics = model.val(data=yaml, conf=0.30, imgsz=640, verbose=False)
-map_metrics = model.val(data=yaml, imgsz=640, verbose=False)
-sys.stdout, sys.stderr = sys.__stdout__, sys.__stderr__
+with open("results.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Test Fold", "Val Model", "Class", "Precision", "Recall", "F1", "mAP50", "mAP50:95"])
+
+    for test in range(1, 6):
+        yaml = f"yaml/fold{test}.yaml"
+        checkpoints = sorted(glob.glob(f"YOLOv11x_CV/test{test}_val*/weights/best.pt"))
+        for ckpt in checkpoints:
+            val_model = ckpt.split("/")[1]  # e.g. test1_val2
+            print(f"Evaluating {val_model} on fold{test}.yaml ...")
+
+            model = YOLO(ckpt)
+            sys.stdout, sys.stderr = devnull, devnull
+            metrics = model.val(data=yaml, conf=0.30, imgsz=640, verbose=False)
+            map_metrics = model.val(data=yaml, imgsz=640, verbose=False)
+            sys.stdout, sys.stderr = sys.__stdout__, sys.__stderr__
+
+            cm_stats = metrics.confusion_matrix.prf()
+            for c, name in metrics.names.items():
+                writer.writerow([
+                    f"fold{test}", val_model, name,
+                    round(cm_stats["precision"][c], 4),
+                    round(cm_stats["recall"][c], 4),
+                    round(cm_stats["f1"][c], 4),
+                    round(map_metrics.box.ap50[c], 4),
+                    round(map_metrics.box.ap[c], 4),
+                ])
+            mean_p  = float(np.mean([cm_stats["precision"][c] for c in metrics.names]))
+            mean_r  = float(np.mean([cm_stats["recall"][c]    for c in metrics.names]))
+            mean_f1 = float(np.mean([cm_stats["f1"][c]        for c in metrics.names]))
+            writer.writerow([
+                f"fold{test}", val_model, "average",
+                round(mean_p, 4), round(mean_r, 4), round(mean_f1, 4),
+                round(map_metrics.box.map50, 4), round(map_metrics.box.map, 4),
+            ])
 
 devnull.close()
-
-cm_stats = metrics.confusion_matrix.prf()
-
-print(f"\n{'Class':<20} {'P':>7} {'R':>7} {'F1':>7} {'AP50':>7} {'AP50-95':>9}")
-print("-" * 60)
-for c, name in metrics.names.items():
-    p  = cm_stats["precision"][c]
-    r  = cm_stats["recall"][c]
-    f1 = cm_stats["f1"][c]
-    ap50    = map_metrics.box.ap50[c]
-    ap5095  = map_metrics.box.ap[c]
-    print(f"{name:<20} {p:>7.4f} {r:>7.4f} {f1:>7.4f} {ap50:>7.4f} {ap5095:>9.4f}")
-
-mean_p  = float(np.mean([cm_stats["precision"][c] for c in metrics.names]))
-mean_r  = float(np.mean([cm_stats["recall"][c]    for c in metrics.names]))
-mean_f1 = float(np.mean([cm_stats["f1"][c]        for c in metrics.names]))
-print("-" * 60)
-print(f"{'average':<20} {mean_p:>7.4f} {mean_r:>7.4f} {mean_f1:>7.4f} {map_metrics.box.map50:>7.4f} {map_metrics.box.map:>9.4f}")
+print("Done. Results saved to results.csv")
