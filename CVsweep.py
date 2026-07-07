@@ -31,15 +31,15 @@ def main():
         p = Path(data_yaml)
         run_name = f"{p.parent.name}_{p.stem}"
 
-        with wandb.init(project="YOLO11x_Heldout_CV", name=run_name, reinit=True):
-            model = YOLO("yolo11x.pt")
+        with wandb.init(project="YOLO11s_Heldout_CV", name=run_name, reinit=True):
+            model = YOLO("yolo11s.pt")
             model.train(
                 data=data_yaml,
                 epochs=30,
                 imgsz=640,
                 device=0,
                 name=run_name,
-                project="YOLOv11x_CV",
+                project="YOLOv11s_CV",
                 lr0=0.0001,
                 batch=32,
                 warmup_epochs=3,
