@@ -1,0 +1,8 @@
+# data.yaml
+path: "/home/higo522/scratch/moose_deer/5_Fold_CV/Fold_5_Mar10/CV/heldout_val/Fold4_val"
+train: images/train
+val: images/val
+
+# Classes
+nc: 2  # number of classes
+names: ['Moose', 'Deer']  # replace with your class names

@@ -18,3 +18,5 @@ YOLOv11l_CV/
 YOLOv11x_CV/
 *.csv
 *.pt
+# Cluster dataset (uploaded via Globus, never committed)
+ssh/dataset/

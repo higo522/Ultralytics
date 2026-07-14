@@ -1,0 +1,12 @@
+# Minimal cluster env for CVsweep — versions pinned to match the local .venv.
+# Do NOT install the full local requirements.txt on Narval: it pins PyPI CUDA
+# wheels (nvidia-*-cu12, triton) that conflict with the cluster's own builds.
+#
+# Install on the LOGIN node (compute nodes have no internet):
+#   module load StdEnv/2023 python/3.11 opencv
+#   virtualenv --no-download ~/venvs/yolo && source ~/venvs/yolo/bin/activate
+#   pip install --no-index --upgrade pip
+#   pip install --no-index torch==2.9.1 torchvision==0.24.1
+#   pip install -r ssh/requirements_narval.txt
+ultralytics==8.3.252
+wandb==0.23.1
