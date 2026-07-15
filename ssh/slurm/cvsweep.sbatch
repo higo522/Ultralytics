@@ -12,7 +12,7 @@
 
 module load StdEnv/2023 python/3.11 opencv
 
-source venv/bin/activate
+source ~/scratch/Ultralytics/venv/bin/activate
 
 # Narval compute nodes have NO internet access:
 # wandb must run offline (sync from the login node afterwards)
@@ -21,5 +21,5 @@ export WANDB_DIR=$SCRATCH/wandb
 
 mkdir -p "$WANDB_DIR"
 
-cd ~/Ultralytics
+cd ~/scratch/Ultralytics
 python ssh/scripts/CVsweep_narval.py "$SLURM_ARRAY_TASK_ID"

@@ -20,14 +20,14 @@ FOLD_YAMLS = [
     "ssh/yaml/test3/val2.yaml",
     "ssh/yaml/test3/val4.yaml",
     "ssh/yaml/test3/val5.yaml",
-    "ssh/yaml/test4/val1.yaml",
-    "ssh/yaml/test4/val2.yaml",
-    "ssh/yaml/test4/val3.yaml",
-    "ssh/yaml/test4/val5.yaml",
-    "ssh/yaml/test5/val1.yaml",
-    "ssh/yaml/test5/val2.yaml",
-    "ssh/yaml/test5/val3.yaml",
-    "ssh/yaml/test5/val4.yaml",
+    #"ssh/yaml/test4/val1.yaml",
+    #"ssh/yaml/test4/val2.yaml",
+    #"ssh/yaml/test4/val3.yaml",
+    #"ssh/yaml/test4/val5.yaml",
+    #"ssh/yaml/test5/val1.yaml",
+    #"ssh/yaml/test5/val2.yaml",
+    #"ssh/yaml/test5/val3.yaml",
+    #"ssh/yaml/test5/val4.yaml",
 ]
 
 
