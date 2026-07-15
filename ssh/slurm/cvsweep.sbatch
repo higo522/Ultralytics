@@ -12,7 +12,7 @@
 
 module load StdEnv/2023 python/3.11 opencv
 
-source ~/venvs/yolo/bin/activate
+source venv/bin/activate
 
 # Narval compute nodes have NO internet access:
 # wandb must run offline (sync from the login node afterwards)
