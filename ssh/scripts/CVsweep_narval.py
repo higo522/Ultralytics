@@ -5,7 +5,7 @@ from pathlib import Path
 import wandb
 from ultralytics import YOLO
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path.home() / "scratch" / "Ultralytics"
 
 FOLD_YAMLS = [
     "ssh/yaml/test1/val2.yaml",
@@ -20,14 +20,14 @@ FOLD_YAMLS = [
     "ssh/yaml/test3/val2.yaml",
     "ssh/yaml/test3/val4.yaml",
     "ssh/yaml/test3/val5.yaml",
-    #"ssh/yaml/test4/val1.yaml",
-    #"ssh/yaml/test4/val2.yaml",
-    #"ssh/yaml/test4/val3.yaml",
-    #"ssh/yaml/test4/val5.yaml",
-    #"ssh/yaml/test5/val1.yaml",
-    #"ssh/yaml/test5/val2.yaml",
-    #"ssh/yaml/test5/val3.yaml",
-    #"ssh/yaml/test5/val4.yaml",
+    "ssh/yaml/test4/val1.yaml",
+    "ssh/yaml/test4/val2.yaml",
+    "ssh/yaml/test4/val3.yaml",
+    "ssh/yaml/test4/val5.yaml",
+    "ssh/yaml/test5/val1.yaml",
+    "ssh/yaml/test5/val2.yaml",
+    "ssh/yaml/test5/val3.yaml",
+    "ssh/yaml/test5/val4.yaml",
 ]
 
 
@@ -39,10 +39,7 @@ def main():
     p = Path(data_yaml)
     run_name = f"{p.parent.name}_{p.stem}"
 
-    # Training outputs go to scratch (home quota is small)
-    project_dir = Path(os.environ["SCRATCH"]) / "YOLOv11x_CV_narval"
-
-    with wandb.init(project="YOLO11x_Heldout_CV_narval", name=run_name, reinit=True):
+    with wandb.init(project="YOLO11x_Heldout_CV_narval_rerun", name=run_name, reinit=True):
         model = YOLO(str(REPO_ROOT / "yolo11x.pt"))
         model.train(
             data=str(data_yaml),
@@ -50,7 +47,7 @@ def main():
             imgsz=640,
             device=0,
             name=run_name,
-            project=str(project_dir),
+            project=REPO_ROOT / "YOLOv11x_CV_narval_rerun",
             lr0=0.0001,
             batch=32,
             warmup_epochs=3,

@@ -16,6 +16,7 @@ YOLOv11s_CV/
 YOLOv11m_CV/
 YOLOv11l_CV/
 YOLOv11x_CV/
+YOLOv11x_CV_narval/
 *.csv
 *.pt
 # Cluster dataset (uploaded via Globus, never committed)

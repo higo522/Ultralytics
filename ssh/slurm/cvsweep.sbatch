@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=12            # Narval A100 nodes: 12 cores per GPU
 #SBATCH --mem=64G
 #SBATCH --time=12:00:00               # adjust after timing one fold
-#SBATCH --output=%x_%A_%a.out
+#SBATCH --output=/home/higo522/scratch/Ultralytics/logs/%x_%A_%a.out
 
 module load StdEnv/2023 python/3.11 opencv
 

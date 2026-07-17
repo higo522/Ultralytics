@@ -4,13 +4,13 @@ import os, sys, csv, glob
 
 devnull = open(os.devnull, 'w')
 
-with open("results_YOLOv11s.csv", "w", newline="") as f:
+with open("results_YOLOv11x_CV_narval.csv", "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerow(["Test Fold", "Val Model", "Class", "Precision", "Recall", "F1", "mAP50", "mAP50:95"])
 
     for test in range(1, 6):
         yaml = f"yaml/fold{test}.yaml"
-        checkpoints = sorted(glob.glob(f"YOLOv11s_CV/test{test}_val*/weights/best.pt"))
+        checkpoints = sorted(glob.glob(f"YOLOv11x_CV_narval/test{test}_val*/weights/best.pt"))
         for ckpt in checkpoints:
             val_model = ckpt.split("/")[1]  # e.g. test1_val2
             print(f"Evaluating {val_model} on fold{test}.yaml ...")
@@ -41,4 +41,4 @@ with open("results_YOLOv11s.csv", "w", newline="") as f:
             ])
 
 devnull.close()
-print("Done. Results saved to results_YOLOv11s.csv")
+print("Done. Results saved to results_YOLOv11x_CV_narval.csv")
